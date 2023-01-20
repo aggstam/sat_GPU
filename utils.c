@@ -79,6 +79,10 @@ int readfile(char* filename) {
 
 	// Allocating memory for the clauses...
 	Problem = (int*)malloc(K * M * sizeof(int));
+	if (Problem == NULL) {
+        printf("Error: malloc for Problem failed.\n");
+        return -1;
+    }
 
 	// ...and read them
 	for (i = 0; i < K; i++) {

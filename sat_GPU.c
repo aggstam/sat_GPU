@@ -100,6 +100,10 @@ int valid(struct frontier_node* node) {
 
 	// Create a partial sums table for the GPU.
 	int* partial_sums = (int*)malloc(WI * sizeof(int));
+    if (partial_sums == NULL) {
+        printf("Error: malloc for partial_sums failed.\n");
+        exit(-1);
+    }
 	for (int i = 0; i < WI; i++) {
 		partial_sums[i] = 0;
 	}
