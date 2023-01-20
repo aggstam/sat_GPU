@@ -4,3 +4,5 @@ This program solves the Propositional (Boolean) Satisfiability problem using Dep
 Problems are read from an input file, while solution is written to screen and an output file.
 <br>
 Two implementations are included, one executed only in CPU, and one which validates each vector using OpenCl.
+<br>
+GPU implementation requires *opencl-headers* package to be installed along with the corresponding platform sdk.
