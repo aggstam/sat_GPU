@@ -25,15 +25,15 @@ const int M)
 	int start = idx*step;
 	
 	sum = 0;
-	for(i=start;i<finish[idx];++i){
+	for(i = start; i < finish[idx]; ++i){
 		valid = 0;
-		for(j=0; j<M; ++j){
-			valid+=((Problem[i*M+j]>0) && 
-			(vector[Problem[i*M+j]-1]>=0))||
-			((Problem[i*M+j]<0)&&
-			(vector[-Problem[i*M+j]-1]<=0));
+		for(j = 0; j < M; ++j){
+			valid+=((Problem[(i * M) +j] > 0) && 
+			(vector[Problem[(i * M) +j]-1] >= 0))||
+			((Problem[(i * M) +j] < 0)&&
+			(vector[-Problem[(i * M) +j]-1] <= 0));
 		}
-		sum += (valid>0); // if valid = 0, the clause is invalid.
+		sum += (valid > 0); // if valid = 0, the clause is invalid.
 	}
 	
 	// Write the local sum to global memory, so the CPU can reduce the table

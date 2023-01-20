@@ -34,7 +34,7 @@ cl_ulong startTimeNs, endTimeNs;
 float GPU_run_time_sum;
 
 // Auxiliary function that displays a message in case of wrong input parameters.
-void syntax_error(char **argv) {
+void syntax_error(char** argv) {
 	printf("Wrong syntax. Use the following:\n\n");
 	printf("%s <work items> <inputfile>\n\n", argv[0]);
 	printf("where:\n");
@@ -44,10 +44,10 @@ void syntax_error(char **argv) {
 }
 
 // Reading the kernel file.
-char* readSource(const char *sourceFilename) {
-	FILE *fp;
+char* readSource(const char* sourceFilename) {
+	FILE* fp;
 	int err;
-	char *source;
+	char* source;
 	int size;
 
 	fp = fopen(sourceFilename, "rb");
@@ -89,7 +89,7 @@ char* readSource(const char *sourceFilename) {
 // all propositions in the clause have already value and their values are such that 
 // the clause is false. We validate the vector by counting how many clauses are valid.
 // In order for the vector to be invalid, count is less than K (number of clauses).
-int valid(struct frontier_node *node) {
+int valid(struct frontier_node* node) {
 	// Pass the vector to GPU.
 	cl_mem d_vector;
 	d_vector = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, N * sizeof(int), node->vector, &status);
@@ -99,7 +99,7 @@ int valid(struct frontier_node *node) {
 	}
 
 	// Create a partial sums table for the GPU.
-	int *partial_sums = (int*)malloc(WI * sizeof(int));
+	int* partial_sums = (int*)malloc(WI * sizeof(int));
 	for (int i = 0; i < WI; i++) {
 		partial_sums[i] = 0;
 	}
@@ -161,7 +161,6 @@ int valid(struct frontier_node *node) {
 	free(partial_sums);
 
 	// Check validation.
-
 	if (sum < K) {
 		return 0;
 	}
@@ -172,7 +171,7 @@ int valid(struct frontier_node *node) {
 // Depth-First Search functions
 #include "dfs.c"
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
 	int err;
 
 	srand((unsigned)time(NULL));
@@ -196,7 +195,7 @@ int main(int argc, char **argv) {
 	printf("Device info:\n\n");
 
 	cl_uint numPlatforms = 0;
-	cl_platform_id *platforms;
+	cl_platform_id* platforms;
 	// Query for the number of recongnized platforms.
 	status = clGetPlatformIDs(0, NULL, &numPlatforms);
 	if (status != CL_SUCCESS) {
@@ -243,7 +242,7 @@ int main(int argc, char **argv) {
 
 	// Retrive the number of devices present.
 	cl_uint numDevices = 0;
-	cl_device_id *devices;
+	cl_device_id* devices;
 	status = clGetDeviceIDs(platforms[0], CL_DEVICE_TYPE_GPU, 0, NULL, &numDevices);
 	if (status != CL_SUCCESS) {
 		printf("clGetDeviceIDs failed. Program terminates.\n");
@@ -284,7 +283,6 @@ int main(int argc, char **argv) {
 			exit(-1);
 		}
 	}
-
 	printf("\n");
 
 	// Create a context and associate it with the devices.
@@ -302,8 +300,8 @@ int main(int argc, char **argv) {
 	}
 
 	cl_program program;
-	char *source;
-	const char *sourceFile = "cl_valid.cl";
+	char* source;
+	const char* sourceFile = "cl_valid.cl";
 	// This function reads in the source code of the program.
 	source = readSource(sourceFile);
 	// Create a program. The 'source' string is the code from the cl_valid.cl file.
@@ -323,22 +321,19 @@ int main(int argc, char **argv) {
 		printf("Program failed to build.\n");
 		cl_build_status buildStatus;
 		for (int i = 0; i < numDevices; i++) {
-			clGetProgramBuildInfo(program, devices[i], CL_PROGRAM_BUILD_STATUS,
-				sizeof(cl_build_status), &buildStatus, NULL);
+			clGetProgramBuildInfo(program, devices[i], CL_PROGRAM_BUILD_STATUS, sizeof(cl_build_status), &buildStatus, NULL);
 			if (buildStatus == CL_SUCCESS) {
 				continue;
 			}
-			char *buildLog;
+			char* buildLog;
 			size_t buildLogSize;
-			clGetProgramBuildInfo(program, devices[i], CL_PROGRAM_BUILD_LOG, 0,
-				NULL, &buildLogSize);
+			clGetProgramBuildInfo(program, devices[i], CL_PROGRAM_BUILD_LOG, 0, NULL, &buildLogSize);
 			buildLog = (char*)malloc(buildLogSize);
 			if (buildLog == NULL) {
 				perror("malloc");
 				exit(-1);
 			}
-			clGetProgramBuildInfo(program, devices[i], CL_PROGRAM_BUILD_LOG,
-				buildLogSize, buildLog, NULL);
+			clGetProgramBuildInfo(program, devices[i], CL_PROGRAM_BUILD_LOG, buildLogSize, buildLog, NULL);
 			buildLog[buildLogSize - 1] = '\0';
 			printf("Device %u Build Log:\n%s\n", i, buildLog);
 			free(buildLog);
@@ -364,7 +359,7 @@ int main(int argc, char **argv) {
 	// Define the step and finishing index for each thread.
 	d_step = K / WI;
 
-	int *finish = (int*)malloc(WI * sizeof(int)); // Finishing index of each work item.
+	int* finish = (int*)malloc(WI * sizeof(int)); // Finishing index of each work item.
 	if (finish == NULL) {
 		printf("Memory exhausted. Program terminates.\n");
 		exit(-1);
@@ -402,20 +397,17 @@ int main(int argc, char **argv) {
 
 	//display_problem();
 
-	struct frontier_node *solution_node = search(); // The main call.
+	struct frontier_node* solution_node = search(); // The main call.
 
 	if (solution_node != NULL) {
-
 		printf("\nSolution found with depth-first!\n");
 		printf("\nSolution vector propositions values:\n");
 		display(solution_node->vector);
 
-	}
-	else {
+	} else {
 		if (mem_error == -1) {
 			printf("Memory exhausted. Program terminates.\n");
-		}
-		else {
+		} else {
 			printf("\nNO SOLUTION EXISTS. Proved by depth-first!");
 		}
 	}

@@ -12,7 +12,7 @@
 #include "utils.c"
 
 // Auxiliary function that copies the values of one vector to another.
-void syntax_error(char **argv) {
+void syntax_error(char** argv) {
 	printf("Wrong syntax. Use the following:\n\n");
 	printf("%s <inputfile>\n\n", argv[0]);
 	printf("where:\n");
@@ -25,21 +25,20 @@ void syntax_error(char **argv) {
 // all propositions in the clause have already value and their values are such that 
 // the clause is false. We validate the vector by counting how many clauses are valid.
 // In order for the vector to be invalid, count is less than K (number of clauses).
-int valid(struct frontier_node *node) {
+int valid(struct frontier_node* node) {
 	int sum = 0;
-	for (int i = 0; i<K; ++i) {
+	for (int i = 0; i < K; ++i) {
 		int valid = 0;
-		for (int j = 0; j<M; ++j) {
-			valid += ((Problem[i*M + j]>0) &&
-				(node->vector[Problem[i*M + j] - 1] >= 0)) ||
-				((Problem[i*M + j]<0) &&
-				(node->vector[-Problem[i*M + j] - 1] <= 0));
+		for (int j = 0; j < M; ++j) {
+			valid += ((Problem[(i * M) + j]>0) &&
+				(node->vector[Problem[(i * M) + j] - 1] >= 0)) ||
+				((Problem[(i * M) + j]<0) &&
+				(node->vector[-Problem[(i * M) + j] - 1] <= 0));
 		}
-		sum += (valid>0); // if valid = 0, the clause is invalid.
+		sum += (valid > 0); // if valid = 0, the clause is invalid.
 	}
 
 	// Check validation.
-
 	if (sum < K) {
 		return 0;
 	}
@@ -50,7 +49,7 @@ int valid(struct frontier_node *node) {
 // Depth-First Search functions
 #include "dfs.c"
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
 	int err;
 
 	srand((unsigned)time(NULL));
@@ -70,20 +69,16 @@ int main(int argc, char **argv) {
 
 	//display_problem();
 
-	struct frontier_node *solution_node = search(); // The main call.
+	struct frontier_node* solution_node = search(); // The main call.
 
 	if (solution_node != NULL) {
-
 		printf("\nSolution found with depth-first!\n");
 		printf("\nSolution vector propositions values:\n");
 		display(solution_node->vector);
-
-	}
-	else {
+	} else {
 		if (mem_error == -1) {
 			printf("Memory exhausted. Program terminates.\n");
-		}
-		else {
+		} else {
 			printf("\nNO SOLUTION EXISTS. Proved by depth-first!");
 		}
 	}

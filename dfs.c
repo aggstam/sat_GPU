@@ -1,6 +1,5 @@
 // This function adds a pointer to a new leaf search-tree node at the front of the frontier.
-int add_to_frontier(struct frontier_node *node) {
-
+int add_to_frontier(struct frontier_node* node) {
 	if (node == NULL) {
 		return -1;
 	}
@@ -11,8 +10,7 @@ int add_to_frontier(struct frontier_node *node) {
 	if (head == NULL) {
 		head = node;
 		tail = node;
-	}
-	else {
+	} else {
 		head->previous = node;
 		head = node;
 	}
@@ -21,8 +19,7 @@ int add_to_frontier(struct frontier_node *node) {
 }
 
 // Check whether a vector is a complete assignment and it is also valid.
-int solution(struct frontier_node *node) {
-
+int solution(struct frontier_node* node) {
 	for (int i = 0; i < N; i++) {
 		if (node->vector[i] == 0) {
 			return 0;
@@ -35,9 +32,9 @@ int solution(struct frontier_node *node) {
 // Given a partial assignment vector, for which a subset of the first propositions have values, 
 // this function pushes up to two new vectors to the frontier, which concern giving to the first unassigned 
 // proposition the values true=1 and false=-1, after checking that the new vectors are valid.
-void generate_children(struct frontier_node *node) {
+void generate_children(struct frontier_node* node) {
 	int i;
-	int *vector = node->vector;
+	int* vector = node->vector;
 
 	// Find the first proposition with no assigned value.
 	for (i = 0; i<N && vector[i] != 0; i++);
@@ -69,18 +66,17 @@ void generate_children(struct frontier_node *node) {
 		// ...and pushes it to the frontier.
 		add_to_frontier(positive);
 	}
-
 }
 
 // This function implements the searching algorithm we've used,
 // checking the frontier head if it's a solution, otherwise creating its
 // children and pushes them to the frontier.
-struct frontier_node *search() {
-	struct frontier_node *current_node;
-	struct frontier_node *temp_node;
+struct frontier_node* search() {
+	struct frontier_node* current_node;
+	struct frontier_node* temp_node;
 
 	// Initializing the frontier.
-	struct frontier_node *root = (struct frontier_node*) malloc(sizeof(struct frontier_node));
+	struct frontier_node* root = (struct frontier_node*) malloc(sizeof(struct frontier_node));
 	root->vector = (int*)malloc(N * sizeof(int));
 	if (root == NULL || root->vector == NULL) {
 		mem_error = -1;
@@ -114,8 +110,7 @@ struct frontier_node *search() {
 		free(temp_node);
 		if (head == NULL) {
 			tail = NULL;
-		}
-		else {
+		} else {
 			head->previous = NULL;
 		}
 	}
@@ -123,5 +118,4 @@ struct frontier_node *search() {
 	t2 = clock();
 
 	return NULL;
-
 }
