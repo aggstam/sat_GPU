@@ -299,6 +299,9 @@ struct frontier_node *search() {
 			return current_node;
 		}
 
+		// Generate its children.
+		generate_children(current_node);
+
 		// Delete the first node of the frontier.
 		temp_node = head;
 		head = head->next;
@@ -309,9 +312,6 @@ struct frontier_node *search() {
 		else {
 			head->previous = NULL;
 		}
-
-		// Generate its children.
-		generate_children(current_node);
 	}
 
 	t2 = clock();
