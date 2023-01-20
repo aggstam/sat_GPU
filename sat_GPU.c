@@ -9,6 +9,7 @@
 //
 // -----------------------------------------------------------------------
 
+#define CL_TARGET_OPENCL_VERSION 300
 #include <CL/cl.h>
 
 // Common code file
@@ -295,7 +296,7 @@ int main(int argc, char** argv) {
     }
 
     // Create a command queue and associate it with the device you want to execute on.
-    cmdQueue = clCreateCommandQueue(context, devices[0], CL_QUEUE_PROFILING_ENABLE, &status);
+    cmdQueue = clCreateCommandQueueWithProperties(context, devices[0], NULL, &status);
     if (status != CL_SUCCESS || cmdQueue == NULL) {
         printf("clCreateCommandQueue failed. Program terminates.\n");
         exit(-1);
