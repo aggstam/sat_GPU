@@ -73,7 +73,6 @@ void generate_children(struct frontier_node* node) {
 // children and pushes them to the frontier.
 struct frontier_node* search() {
     struct frontier_node* current_node;
-    struct frontier_node* temp_node;
 
     // Initializing the frontier.
     struct frontier_node* root = (struct frontier_node*) malloc(sizeof(struct frontier_node));
