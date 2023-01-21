@@ -13,7 +13,7 @@
 #include <CL/cl.h>
 
 // Common code file
-#include "utils.c"
+#include "core.c"
 
 // OpenCl global variables
 int WI; // Work items.

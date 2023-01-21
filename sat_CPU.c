@@ -9,7 +9,7 @@
 // -----------------------------------------------------------------------
 
 // Common code file
-#include "utils.c"
+#include "core.c"
 
 // Auxiliary function that copies the values of one vector to another.
 void syntax_error(char** argv) {
