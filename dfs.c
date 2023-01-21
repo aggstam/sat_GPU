@@ -104,15 +104,23 @@ struct frontier_node* search() {
         // Generate its children.
         generate_children(current_node);
 
-        // Delete the first node of the frontier.
-        temp_node = head;
-        head = head->next;
-        free(temp_node);
-        if (head == NULL) {
-            tail = NULL;
+        // Shift frontier head
+        if (current_node->previous != NULL) {
+            // Current node is no longer frontier head, so we link
+            // its previous with its next node.
+            current_node->previous->next = current_node->next;
         } else {
-            head->previous = NULL;
+            // Node is still frontier head, so we move to next one.
+            head = current_node->next;
+            if (head == NULL) {
+                tail = NULL;
+            } else {
+                head->previous = NULL;
+            }
         }
+
+        // Free node.
+        free(current_node);
     }
 
     t2 = clock();
