@@ -111,9 +111,7 @@ struct frontier_node* search() {
         } else {
             // Node is still frontier head, so we move to next one.
             head = current_node->next;
-            if (head == NULL) {
-                tail = NULL;
-            } else {
+            if (head != NULL) {
                 head->previous = NULL;
             }
         }
