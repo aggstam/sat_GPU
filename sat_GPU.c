@@ -35,7 +35,8 @@ cl_ulong startTimeNs, endTimeNs;
 float GPU_run_time_sum;
 
 // Auxiliary function that displays a message in case of wrong input parameters.
-void syntax_error(char** argv) {
+void syntax_error(char **argv)
+{
     printf("Wrong syntax. Use the following:\n\n");
     printf("%s <work items> <inputfile>\n\n", argv[0]);
     printf("where:\n");
@@ -45,10 +46,11 @@ void syntax_error(char** argv) {
 }
 
 // Reading the kernel file.
-char* readSource(const char* sourceFilename) {
-    FILE* fp;
+char *readSource(const char *sourceFilename)
+{
+    FILE *fp;
     int err;
-    char* source;
+    char *source;
     int size;
 
     fp = fopen(sourceFilename, "rb");
@@ -90,7 +92,8 @@ char* readSource(const char* sourceFilename) {
 // all propositions in the clause have already value and their values are such that 
 // the clause is false. We validate the vector by counting how many clauses are valid.
 // In order for the vector to be invalid, count is less than K (number of clauses).
-int valid(struct frontier_node* node) {
+int valid(struct frontier_node *node)
+{
     // Pass the vector to GPU.
     cl_mem d_vector;
     d_vector = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, N * sizeof(int), node->vector, &status);
@@ -100,7 +103,7 @@ int valid(struct frontier_node* node) {
     }
 
     // Create a partial sums table for the GPU.
-    int* partial_sums = (int*)malloc(WI * sizeof(int));
+    int *partial_sums = (int*)malloc(WI * sizeof(int));
     if (partial_sums == NULL) {
         printf("Error: malloc for partial_sums failed.\n");
         exit(-1);
@@ -176,7 +179,8 @@ int valid(struct frontier_node* node) {
 // Depth-First Search functions
 #include "dfs.c"
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv)
+{
     int err;
 
     srand((unsigned)time(NULL));
@@ -303,8 +307,8 @@ int main(int argc, char** argv) {
     }
 
     cl_program program;
-    char* source;
-    const char* sourceFile = "cl_valid.cl";
+    char *source;
+    const char *sourceFile = "cl_valid.cl";
     // This function reads in the source code of the program.
     source = readSource(sourceFile);
     // Create a program. The 'source' string is the code from the cl_valid.cl file.
@@ -328,7 +332,7 @@ int main(int argc, char** argv) {
             if (buildStatus == CL_SUCCESS) {
                 continue;
             }
-            char* buildLog;
+            char *buildLog;
             size_t buildLogSize;
             clGetProgramBuildInfo(program, devices[i], CL_PROGRAM_BUILD_LOG, 0, NULL, &buildLogSize);
             buildLog = (char*)malloc(buildLogSize);
@@ -362,7 +366,7 @@ int main(int argc, char** argv) {
     // Define the step and finishing index for each thread.
     d_step = K / WI;
 
-    int* finish = (int*)malloc(WI * sizeof(int)); // Finishing index of each work item.
+    int *finish = (int*)malloc(WI * sizeof(int)); // Finishing index of each work item.
     if (finish == NULL) {
         printf("Memory exhausted. Program terminates.\n");
         exit(-1);

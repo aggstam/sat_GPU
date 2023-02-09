@@ -14,18 +14,19 @@ int mem_error;  // Constant for errors while allocating memory. If mem_error -1 
 
 // Frontier's node structure.
 struct frontier_node {
-    int* vector;                    // Node's vector.
-    struct frontier_node* previous; // Pointer to the previous frontier node.
-    struct frontier_node* next;     // Pointer to the next frontier node.
+    int *vector;                    // Node's vector.
+    struct frontier_node *previous; // Pointer to the previous frontier node.
+    struct frontier_node *next;     // Pointer to the next frontier node.
 };
 
-struct frontier_node* head = NULL;  // The one end of the frontier.
-struct frontier_node* tail = NULL;  // The other end of the frontier.
+struct frontier_node *head = NULL;  // The one end of the frontier.
+struct frontier_node *tail = NULL;  // The other end of the frontier.
 
 // Reading the input file.
-int readfile(char* filename) {
+int readfile(char *filename)
+{
     int i, j;
-    FILE* infile;
+    FILE *infile;
     int err;
 
     // Opening the input file.
@@ -107,7 +108,8 @@ int readfile(char* filename) {
 }
 
 // Auxiliary function that displays all the clauses of the problem.
-void display_problem() {
+void display_problem()
+{
     printf("The current problem:\n");
     printf("====================\n");
     for (int i = 0; i < K; i++) {
@@ -126,7 +128,8 @@ void display_problem() {
 }
 
 // Auxiliary function that displays the current assignment of truth values to the propositions.
-void display(int* vector) {
+void display(int *vector)
+{
     for (int i = 0; i < N; i++) {
         if (vector[i] == 1) {
             printf("P%d=true  ", i + 1);
@@ -137,7 +140,8 @@ void display(int* vector) {
 }
 
 // Auxiliary function that copies the values of one vector to another.
-void copy(int* vector1, int* vector2) {
+void copy(int *vector1, int *vector2)
+{
     for (int i = 0; i < N; i++) {
         vector2[i] = vector1[i];
     }

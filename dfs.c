@@ -1,5 +1,6 @@
 // This function adds a pointer to a new leaf search-tree node at the front of the frontier.
-int add_to_frontier(struct frontier_node* node) {
+int add_to_frontier(struct frontier_node *node)
+{
     if (node == NULL) {
         return -1;
     }
@@ -19,7 +20,8 @@ int add_to_frontier(struct frontier_node* node) {
 }
 
 // Check whether a vector is a complete assignment and it is also valid.
-int solution(struct frontier_node* node) {
+int solution(struct frontier_node *node)
+{
     for (int i = 0; i < N; i++) {
         if (node->vector[i] == 0) {
             return 0;
@@ -32,12 +34,13 @@ int solution(struct frontier_node* node) {
 // Given a partial assignment vector, for which a subset of the first propositions have values, 
 // this function pushes up to two new vectors to the frontier, which concern giving to the first unassigned 
 // proposition the values true=1 and false=-1, after checking that the new vectors are valid.
-void generate_children(struct frontier_node* node) {
+void generate_children(struct frontier_node *node)
+{
     int i;
-    int* vector = node->vector;
+    int *vector = node->vector;
 
     // Find the first proposition with no assigned value.
-    for (i = 0; i<N && vector[i] != 0; i++);
+    for (i = 0; i < N && vector[i] != 0; i++);
 
     vector[i] = -1;
     struct frontier_node *negative = (struct frontier_node*) malloc(sizeof(struct frontier_node));
@@ -71,11 +74,12 @@ void generate_children(struct frontier_node* node) {
 // This function implements the searching algorithm we've used,
 // checking the frontier head if it's a solution, otherwise creating its
 // children and pushes them to the frontier.
-struct frontier_node* search() {
-    struct frontier_node* current_node;
+struct frontier_node *search()
+{
+    struct frontier_node *current_node;
 
     // Initializing the frontier.
-    struct frontier_node* root = (struct frontier_node*) malloc(sizeof(struct frontier_node));
+    struct frontier_node *root = (struct frontier_node*) malloc(sizeof(struct frontier_node));
     root->vector = (int*)malloc(N * sizeof(int));
     if (root == NULL || root->vector == NULL) {
         mem_error = -1;
