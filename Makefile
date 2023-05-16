@@ -1,6 +1,8 @@
 FILE = test_file.txt
 WORKERS = 100
 
+all: cpu gpu
+
 cpu:
 	$(info Executing CPU code...)
 	gcc -o sat_CPU sat_CPU.c
@@ -13,3 +15,5 @@ gpu:
 
 clean:
 	rm -f sat_CPU sat_GPU
+
+.PHONY: all cpu gpu clean
