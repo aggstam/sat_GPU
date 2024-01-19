@@ -11,7 +11,7 @@
 // Common code file
 #include "core.c"
 
-// Auxiliary function that copies the values of one vector to another.
+// Auxiliary function that displays a message in case of wrong input parameters.
 void syntax_error(char **argv)
 {
     printf("Wrong syntax. Use the following:\n\n");
