@@ -12,52 +12,52 @@ Both version can be invocted via the Makefile, or by directly compiling and exec
 
 ### Make usage
 #### CPU code
-```
-% make cpu
+```shell
+$ make cpu
 ```
 To include a different input file:
-```
-% make cpu FILE={file_path}
+```shell
+$ make cpu FILE={file_path}
 ```
 
 #### GPU code
-```
-% make gpu
+```shell
+$ make gpu
 ```
 To configure GPU workers:
-```
-% make gpu WORKERS={number}
+```shell
+$ make gpu WORKERS={number}
 ```
 To include a different input file:
-```
-% make gpu FILE={file_path}
+```shell
+$ make gpu FILE={file_path}
 ```
 
 ### Direct usage
 #### CPU code
 Compilation:
-```
-% gcc -o sat_CPU sat_CPU.c
+```shell
+$ gcc -o sat_CPU sat_CPU.c
 ```
 Execution:
-```
-% ./sat_CPU {file_path}
+```shell
+$ ./sat_CPU {file_path}
 ```
 
 #### GPU code
 Compilation:
-```
-% gcc -o sat_GPU sat_GPU.c -lOpenCL
+```shell
+$ gcc -o sat_GPU sat_GPU.c -lOpenCL
 ```
 Execution:
-```
-% ./sat_GPU {workers_number} {file_path}
+```shell
+$ ./sat_GPU {workers_number} {file_path}
 ```
 
 ## Execution examples
 ### CPU code
-```
-❯ make cpu
+```shell
+$ make cpu
 Executing CPU code...
 gcc -o sat_CPU sat_CPU.c
 ./sat_CPU test_file.txt
@@ -74,8 +74,8 @@ Time spent: 21.848 secs
 ```
 
 ### GPU code
-```
-❯ make gpu
+```shell
+$ make gpu
 Executing GPU code...
 gcc -o sat_GPU sat_GPU.c -lOpenCL
 ./sat_GPU 100 test_file.txt
